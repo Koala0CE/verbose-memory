@@ -1,9 +1,9 @@
 import Image from "next/image";
 import styles from "./page.module.css";
-// import { TimeLine } from "./_components/TimeLine";
 import { Hero } from "./_components/Hero";
 import { Stack } from "@mui/material";
-import CustomizedTimeline from "./_components/TimeLine";
+import CustomizedTimeline from "./_components/Timeline";
+import TitlebarBelowImageList from "./album/page";
 
 export default function Home() {
   return (
@@ -11,6 +11,7 @@ export default function Home() {
       <Hero />
       {/* <TimeLine /> */}
       <CustomizedTimeline />
+      <TitlebarBelowImageList />
     </Stack>
   );
 }
