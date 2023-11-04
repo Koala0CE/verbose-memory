@@ -1,34 +1,13 @@
 import * as React from "react";
-import ImageList from "@mui/material/ImageList";
-import ImageListItem from "@mui/material/ImageListItem";
-import ImageListItemBar from "@mui/material/ImageListItemBar";
+import { Box, Stack } from "@mui/material";
+import Image from "next/image";
 
 export default function TitlebarBelowImageList() {
   return (
-    <ImageList sx={{ width: 500, height: 450 }}>
-      {itemData.map((item) => (
-        <ImageListItem key={item.img}>
-          <img
-            srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-            src={`${item.img}?w=248&fit=crop&auto=format`}
-            alt={item.title}
-            loading="lazy"
-          />
-          <ImageListItemBar
-            title={item.title}
-            subtitle={<span>at: {item.location}</span>}
-            position="below"
-          />
-        </ImageListItem>
-      ))}
-    </ImageList>
+    <Stack justifyContent={"center"} alignItems={"center"}>
+      <Box justifyContent={"center"} alignItems={"center "}>
+        <Image fill src={"/valentinesDay.png"} alt={"Flowers"}></Image>
+      </Box>
+    </Stack>
   );
 }
-
-const itemData = [
-  {
-    img: "/valentinesDay.png",
-    title: "Valentine's Day Flowers",
-    location: "@Preston Home",
-  },
-];
