@@ -12,10 +12,12 @@ import Typography from "@mui/material/Typography";
 import LoyaltySharpIcon from "@mui/icons-material/LoyaltySharp";
 import WaterSharpIcon from "@mui/icons-material/WaterSharp";
 import NightShelterSharpIcon from "@mui/icons-material/NightShelterSharp";
+import { IconButton } from "@mui/material";
 
 export default function CustomizedTimeline() {
   return (
     <Timeline position="alternate">
+      {/* 1st */}
       <TimelineItem>
         <TimelineOppositeContent
           sx={{ m: "auto 0" }}
@@ -29,7 +31,9 @@ export default function CustomizedTimeline() {
         <TimelineSeparator>
           <TimelineConnector />
           <TimelineDot>
-            <LoyaltySharpIcon />
+            <IconButton href="/album" size="small" aria-label="delete">
+              <LoyaltySharpIcon />
+            </IconButton>
           </TimelineDot>
           <TimelineConnector />
         </TimelineSeparator>
