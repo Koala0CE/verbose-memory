@@ -2,268 +2,128 @@
 import * as React from "react";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem from "@mui/lab/TimelineItem";
+import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
-import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 import TimelineDot from "@mui/lab/TimelineDot";
-import RepeatIcon from "@mui/icons-material/Repeat";
-import Typography from "@mui/material/Typography";
+import { IconButton, Typography } from "@mui/material";
 import LoyaltySharpIcon from "@mui/icons-material/LoyaltySharp";
 import WaterSharpIcon from "@mui/icons-material/WaterSharp";
 import NightShelterSharpIcon from "@mui/icons-material/NightShelterSharp";
-import { IconButton } from "@mui/material";
+import FilterVintageIcon from "@mui/icons-material/FilterVintage";
+import RepeatIcon from "@mui/icons-material/Repeat";
+
+const pictureData = {
+  LoyaltySharpIcon: ["image1.jpg", "image2.jpg", "image3.jpg"],
+  WaterSharpIcon: ["image4.jpg", "image5.jpg"],
+  // Add more buttons and their associated picture sets
+};
+
+const colour: any = "primary";
+
+const timelineData = [
+  {
+    date: "14 FEB 2022",
+    icon: LoyaltySharpIcon,
+    title: "1st Date",
+    description: "Valentine's Day!",
+    colour: colour,
+  },
+  {
+    date: "13 MAR 2022",
+    icon: WaterSharpIcon,
+    title: "Blackpool",
+    description: "First trip together!",
+    colour: colour,
+  },
+  {
+    date: "25 MAR 2022",
+    icon: NightShelterSharpIcon,
+    title: "London",
+    description: "Two days trip together with Nanako!",
+    colour: colour,
+  },
+  {
+    date: "1 APR 2022",
+    icon: FilterVintageIcon,
+    title: "First date night",
+    description: "Before Jupi's Easter Holiday!",
+    colour: colour,
+  },
+  {
+    date: "30 APR 2022",
+    icon: RepeatIcon,
+    title: "Military Field Trip",
+    description: "Uni trip to Preston - Fulwood!",
+    colour: colour,
+  },
+  {
+    date: "13 JUN 2022",
+    icon: RepeatIcon,
+    title: "Ale's graduation",
+    description: "One week trip to Bucharest! Graduation ceremony On the 16th",
+    colour: colour,
+  },
+  {
+    date: "18 JUN 2022",
+    icon: RepeatIcon,
+    title: "Meeting Jupi's Familiy",
+    description: "One week trip to Austria!",
+    colour: colour,
+  },
+  {
+    date: "04 July 2022",
+    icon: RepeatIcon,
+    title: "Scotland",
+    description: "3 Days Exploring Glasgow & Edinburgh",
+    colour: colour,
+  },
+  {
+    date: "08 JULY 2022",
+    icon: RepeatIcon,
+    title: "Liverpool",
+    description: "One day trip to Liverpool!",
+    colour: colour,
+  },
+  {
+    date: "12 JULY 2022",
+    icon: RepeatIcon,
+    title: "Our Graduation",
+    description: "BSc Software Engineering, UCLAN, Preston, United Kingdom",
+    colour: colour,
+  },
+];
 
 export default function CustomizedTimeline() {
   return (
     <Timeline position="alternate">
-      {/* 1st */}
-      <TimelineItem>
-        <TimelineOppositeContent
-          sx={{ m: "auto 0" }}
-          align="right"
-          variant="body2"
-          // color="text.secondary"
-          color={"white"}
-        >
-          14 FEB 2022
-        </TimelineOppositeContent>
-        <TimelineSeparator>
-          <TimelineConnector />
-          <TimelineDot>
-            <IconButton href="/album" size="small" aria-label="delete">
-              <LoyaltySharpIcon />
-            </IconButton>
-          </TimelineDot>
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent sx={{ py: "12px", px: 2 }}>
-          <Typography variant="h6" component="span">
-            1st Date
-          </Typography>
-          <Typography> Valentine&apos;s Day!</Typography>
-        </TimelineContent>
-      </TimelineItem>
-      {/* 2nd */}
-      <TimelineItem>
-        <TimelineOppositeContent
-          sx={{ m: "auto 0" }}
-          variant="body2"
-          // color="text.secondary"
-          color={"white"}
-        >
-          13 MAR 2022
-        </TimelineOppositeContent>
-        <TimelineSeparator>
-          <TimelineConnector />
-          <TimelineDot color="primary">
-            <WaterSharpIcon />
-          </TimelineDot>
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent sx={{ py: "12px", px: 2 }}>
-          <Typography variant="h6" component="span">
-            Blackpool
-          </Typography>
-          <Typography>First trip together!</Typography>
-        </TimelineContent>
-      </TimelineItem>
-      {/* 3rd */}
-      <TimelineItem>
-        <TimelineOppositeContent
-          sx={{ m: "auto 0" }}
-          variant="body2"
-          // color="text.secondary"
-          color={"white"}
-        >
-          25 MAR 2022
-        </TimelineOppositeContent>
-        <TimelineSeparator>
-          <TimelineConnector />
-          <TimelineDot color="primary" variant="outlined">
-            <NightShelterSharpIcon />
-          </TimelineDot>
-          <TimelineConnector sx={{ bgcolor: "secondary.main" }} />
-        </TimelineSeparator>
-        <TimelineContent sx={{ py: "12px", px: 2 }}>
-          <Typography variant="h6" component="span">
-            London
-          </Typography>
-          <Typography>Two days trip together with Nanako!</Typography>
-        </TimelineContent>
-      </TimelineItem>
-      {/* 4th */}
-      <TimelineItem>
-        <TimelineOppositeContent
-          sx={{ m: "auto 0" }}
-          variant="body2"
-          // color="text.secondary"
-          color={"white"}
-        >
-          1 APR 2022
-        </TimelineOppositeContent>
-        <TimelineSeparator>
-          <TimelineConnector sx={{ bgcolor: "secondary.main" }} />
-          <TimelineDot color="secondary">
-            <RepeatIcon />
-          </TimelineDot>
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent sx={{ py: "12px", px: 2 }}>
-          <Typography variant="h6" component="span">
-            First date night
-          </Typography>
-          <Typography>Before Jupi&apos;s Easter Holiday!</Typography>
-        </TimelineContent>
-      </TimelineItem>
-      {/* 5h */}
-      <TimelineItem>
-        <TimelineOppositeContent
-          sx={{ m: "auto 0" }}
-          variant="body2"
-          // color="text.secondary"
-          color={"white"}
-        >
-          30 APR 2022
-        </TimelineOppositeContent>
-        <TimelineSeparator>
-          <TimelineConnector sx={{ bgcolor: "secondary.main" }} />
-          <TimelineDot color="secondary">
-            <RepeatIcon />
-          </TimelineDot>
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent sx={{ py: "12px", px: 2 }}>
-          <Typography variant="h6" component="span">
-            Military Field Trip
-          </Typography>
-          <Typography>Uni trip to Preston - Fulwood!</Typography>
-        </TimelineContent>
-      </TimelineItem>
-      {/* 6th */}
-      <TimelineItem>
-        <TimelineOppositeContent
-          sx={{ m: "auto 0" }}
-          variant="body2"
-          // color="text.secondary"
-          color={"white"}
-        >
-          13 JUN 2022
-        </TimelineOppositeContent>
-        <TimelineSeparator>
-          <TimelineConnector sx={{ bgcolor: "secondary.main" }} />
-          <TimelineDot color="secondary">
-            <RepeatIcon />
-          </TimelineDot>
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent sx={{ py: "12px", px: 2 }}>
-          <Typography variant="h6" component="span">
-            Ale&apos;s graduation
-          </Typography>
-          <Typography>
-            One week trip to Bucharest! Graduation ceremony On the 16th
-          </Typography>
-        </TimelineContent>
-      </TimelineItem>
-      {/* 7th */}
-      <TimelineItem>
-        <TimelineOppositeContent
-          sx={{ m: "auto 0" }}
-          variant="body2"
-          // color="text.secondary"
-          color={"white"}
-        >
-          18 JUN 2022
-        </TimelineOppositeContent>
-        <TimelineSeparator>
-          <TimelineConnector sx={{ bgcolor: "secondary.main" }} />
-          <TimelineDot color="secondary">
-            <RepeatIcon />
-          </TimelineDot>
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent sx={{ py: "12px", px: 2 }}>
-          <Typography variant="h6" component="span">
-            Meeting Jupi&apos;s Familiy
-          </Typography>
-          <Typography>One week trip to Austria!</Typography>
-        </TimelineContent>
-      </TimelineItem>
-      {/* 8th */}
-      <TimelineItem>
-        <TimelineOppositeContent
-          sx={{ m: "auto 0" }}
-          variant="body2"
-          // color="text.secondary"
-          color={"white"}
-        >
-          04 July 2022
-        </TimelineOppositeContent>
-        <TimelineSeparator>
-          <TimelineConnector sx={{ bgcolor: "secondary.main" }} />
-          <TimelineDot color="secondary">
-            <RepeatIcon />
-          </TimelineDot>
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent sx={{ py: "12px", px: 2 }}>
-          <Typography variant="h6" component="span">
-            Scotland
-          </Typography>
-          <Typography>3 Days Exploring Glasgow & Edinburgh</Typography>
-        </TimelineContent>
-      </TimelineItem>
-      {/* 8th */}
-      <TimelineItem>
-        <TimelineOppositeContent
-          sx={{ m: "auto 0" }}
-          variant="body2"
-          // color="text.secondary"
-          color={"white"}
-        >
-          08 JULY 2022
-        </TimelineOppositeContent>
-        <TimelineSeparator>
-          <TimelineConnector sx={{ bgcolor: "secondary.main" }} />
-          <TimelineDot color="secondary">
-            <RepeatIcon />
-          </TimelineDot>
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent sx={{ py: "12px", px: 2 }}>
-          <Typography variant="h6" component="span">
-            Liverpool
-          </Typography>
-          <Typography>One day trip to Liverpool!</Typography>
-        </TimelineContent>
-      </TimelineItem>
-      {/* 9th */}
-      <TimelineItem>
-        <TimelineOppositeContent
-          sx={{ m: "auto 0" }}
-          variant="body2"
-          // color="text.secondary"
-          color={"white"}
-        >
-          12 JULY 2022
-        </TimelineOppositeContent>
-        <TimelineSeparator>
-          <TimelineConnector sx={{ bgcolor: "secondary.main" }} />
-          <TimelineDot color="secondary">
-            <RepeatIcon />
-          </TimelineDot>
-          <TimelineConnector />
-        </TimelineSeparator>
-        <TimelineContent sx={{ py: "12px", px: 2 }}>
-          <Typography variant="h6" component="span">
-            Our Graduation
-          </Typography>
-          <Typography>
-            BSc Software Engineering, UCLAN, Preston, United Kingdom
-          </Typography>
-        </TimelineContent>
-      </TimelineItem>
+      {timelineData.map((item, index) => (
+        <TimelineItem key={index}>
+          <TimelineOppositeContent
+            sx={{ m: "auto 0" }}
+            variant="body2"
+            color={"white"}
+          >
+            {item.date}
+          </TimelineOppositeContent>
+          <TimelineSeparator>
+            <TimelineConnector />
+            <TimelineDot color={item.colour}>
+              <IconButton href="/album" size="small" aria-label="delete">
+                {<item.icon />}
+              </IconButton>
+            </TimelineDot>
+            <TimelineConnector />
+          </TimelineSeparator>
+          <TimelineContent sx={{ py: "12px", px: 2 }}>
+            <Typography variant="h6" component="span">
+              {item.title}
+            </Typography>
+            <Typography>{item.description}</Typography>
+          </TimelineContent>
+        </TimelineItem>
+      ))}
     </Timeline>
   );
 }
