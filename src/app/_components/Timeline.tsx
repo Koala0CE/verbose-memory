@@ -7,16 +7,27 @@ import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
-import { IconButton, Stack, Typography } from "@mui/material";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
 import LoyaltySharpIcon from "@mui/icons-material/LoyaltySharp";
 import WaterSharpIcon from "@mui/icons-material/WaterSharp";
 import NightShelterSharpIcon from "@mui/icons-material/NightShelterSharp";
-import FilterVintageIcon from "@mui/icons-material/FilterVintage";
-import RepeatIcon from "@mui/icons-material/Repeat";
+import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
+import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
+import CastleIcon from "@mui/icons-material/Castle";
+import Groups2Icon from "@mui/icons-material/Groups2";
+import TapasIcon from "@mui/icons-material/Tapas";
+import SchoolIcon from "@mui/icons-material/School";
 import { useEffect, useState } from "react";
 import { Pictures } from "./Pictures";
 
 const colour: any = "primary";
+const secondaryColour = "secondary";
+const successColour = "success";
+const errorColour = "error";
+const warningColour = "warning";
+const greyColour = "grey";
+const inheritColour = "inherit";
+const infoColour = "info";
 
 const fallback = {
   image: "/airPlants.png",
@@ -29,7 +40,7 @@ const timelineData = [
     icon: LoyaltySharpIcon,
     title: "1st Date",
     description: "Valentine's Day!",
-    colour: colour,
+    colour: errorColour,
     imageUrl: "/valentinesDay.png",
     imageAlt: "Change me",
   },
@@ -39,7 +50,7 @@ const timelineData = [
     title: "Blackpool",
     description: "First trip together!",
     colour: colour,
-    imageUrl: "/airPlants.png",
+    imageUrl: "/blackpool.png",
     imageAlt: "Change me",
   },
   {
@@ -47,71 +58,71 @@ const timelineData = [
     icon: NightShelterSharpIcon,
     title: "London",
     description: "Two days trip together with Nanako!",
-    colour: colour,
-    imageUrl: "/valentinesDay.png",
+    colour: warningColour,
+    imageUrl: "/london.png",
     imageAlt: "Change me",
   },
   {
     date: "1 APR 2022",
-    icon: FilterVintageIcon,
+    icon: TapasIcon,
     title: "First date night",
     description: "Before Jupi's Easter Holiday!",
-    colour: colour,
+    colour: successColour,
     imageUrl: "/airPlants.png",
     imageAlt: "Change me",
   },
   {
     date: "30 APR 2022",
-    icon: RepeatIcon,
+    icon: MilitaryTechIcon,
     title: "Military Field Trip",
     description: "Uni trip to Preston - Fulwood!",
-    colour: colour,
+    colour: infoColour,
     imageUrl: "/airPlants.png",
     imageAlt: "Change me",
   },
   {
     date: "13 JUN 2022",
-    icon: RepeatIcon,
+    icon: SchoolIcon,
     title: "Ale's graduation",
     description: "One week trip to Bucharest! Graduation ceremony On the 16th",
-    colour: colour,
-    imageUrl: "/airPlants.png",
+    colour: successColour,
+    imageUrl: "/bucharest.png",
     imageAlt: "Change me",
   },
   {
     date: "18 JUN 2022",
-    icon: RepeatIcon,
+    icon: Groups2Icon,
     title: "Meeting Jupi's Familiy",
     description: "One week trip to Austria!",
-    colour: colour,
+    colour: warningColour,
     imageUrl: "/airPlants.png",
     imageAlt: "Change me",
   },
   {
     date: "04 July 2022",
-    icon: RepeatIcon,
+    icon: CastleIcon,
     title: "Scotland",
     description: "3 Days Exploring Glasgow & Edinburgh",
-    colour: colour,
-    imageUrl: "/airPlants.png",
+    colour: inheritColour,
+    imageUrl: "/scotland.png",
     imageAlt: "Change me",
   },
   {
     date: "08 JULY 2022",
-    icon: RepeatIcon,
+    icon: SportsSoccerIcon,
     title: "Liverpool",
     description: "One day trip to Liverpool!",
-    colour: colour,
-    imageUrl: "/airPlants.png",
+    colour: successColour,
+    imageUrl: "/liverpool.png",
     imageAlt: "Change me",
   },
   {
     date: "12 JULY 2022",
-    icon: RepeatIcon,
+    icon: SchoolIcon,
     title: "Our Graduation",
     description: "BSc Software Engineering, UCLAN, Preston, United Kingdom",
-    colour: colour,
-    imageUrl: "/airPlants.png",
+    colour: secondaryColour,
+    imageUrl: "/graduationUclan.png",
     imageAlt: "Change me",
   },
 ];
