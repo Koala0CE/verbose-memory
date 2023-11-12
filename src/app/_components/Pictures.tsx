@@ -29,8 +29,8 @@ export const Pictures = ({
         {imageLoadError ? (
           <>
             <Image
-              width={300}
-              height={300}
+              width={500}
+              height={500}
               src={fallbackImageUrl}
               alt={fallbackImageAlt}
             />
