@@ -147,9 +147,14 @@ export default function CustomizedTimeline() {
 
   return (
     <>
-      <Stack direction={"row"} bgcolor={"wheat"}>
+      <Stack
+        direction={"row"}
+        // bgcolor={"wheat"}
+      >
         {/* Timeline */}
-        <Stack bgcolor={"thistle"}>
+        <Stack
+        //  bgcolor={"thistle"}
+        >
           <Timeline position="alternate">
             {timelineData.map((item, index) => (
               <TimelineItem key={index}>
@@ -164,6 +169,7 @@ export default function CustomizedTimeline() {
                   <TimelineConnector />
                   <TimelineDot color={item.colour}>
                     <IconButton
+                      sx={{ color: "white" }}
                       // href="/album"
                       size="small"
                       aria-label="delete"
@@ -193,7 +199,7 @@ export default function CustomizedTimeline() {
         {/* Pictures */}
         <Stack
           justifyContent={"center"}
-          bgcolor={"pink"}
+          // bgcolor={"pink"}
           width={500}
           height={500}
         >
