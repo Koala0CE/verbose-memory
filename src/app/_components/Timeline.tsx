@@ -19,6 +19,14 @@ import TapasIcon from "@mui/icons-material/Tapas";
 import SchoolIcon from "@mui/icons-material/School";
 import { useEffect, useState } from "react";
 import { Pictures } from "./Pictures";
+import Image, { StaticImageData } from "next/image";
+import liverpoolPic from "/public/liverpool.png";
+import blackpoolPic from "/public/blackpool.png";
+import londonPic from "/public/london.png";
+import airPlantsPic from "/public/airPlants.png";
+import bucharestPic from "/public/bucharest.png";
+import scotlandPic from "/public/scotland.png";
+import graduationUclanPic from "/public/graduationUclan.png";
 
 const colour: any = "primary";
 const secondaryColour = "secondary";
@@ -41,7 +49,8 @@ const timelineData = [
     title: "1st Date",
     description: "Valentine's Day!",
     colour: errorColour,
-    imageUrl: "/valentinesDay.png",
+    imageUrl: airPlantsPic,
+
     imageAlt: "Change me",
   },
   {
@@ -50,7 +59,7 @@ const timelineData = [
     title: "Blackpool",
     description: "First trip together!",
     colour: colour,
-    imageUrl: "/blackpool.png",
+    imageUrl: blackpoolPic,
     imageAlt: "Change me",
   },
   {
@@ -59,7 +68,7 @@ const timelineData = [
     title: "London",
     description: "Two days trip together with Nanako!",
     colour: warningColour,
-    imageUrl: "/london.png",
+    imageUrl: londonPic,
     imageAlt: "Change me",
   },
   {
@@ -68,7 +77,7 @@ const timelineData = [
     title: "First date night",
     description: "Before Jupi's Easter Holiday!",
     colour: successColour,
-    imageUrl: "/airPlants.png",
+    imageUrl: airPlantsPic,
     imageAlt: "Change me",
   },
   {
@@ -77,7 +86,7 @@ const timelineData = [
     title: "Military Field Trip",
     description: "Uni trip to Preston - Fulwood!",
     colour: infoColour,
-    imageUrl: "/airPlants.png",
+    imageUrl: airPlantsPic,
     imageAlt: "Change me",
   },
   {
@@ -86,7 +95,7 @@ const timelineData = [
     title: "Ale's graduation",
     description: "One week trip to Bucharest! Graduation ceremony On the 16th",
     colour: successColour,
-    imageUrl: "/bucharest.png",
+    imageUrl: bucharestPic,
     imageAlt: "Change me",
   },
   {
@@ -95,7 +104,7 @@ const timelineData = [
     title: "Meeting Jupi's Familiy",
     description: "One week trip to Austria!",
     colour: warningColour,
-    imageUrl: "/airPlants.png",
+    imageUrl: airPlantsPic,
     imageAlt: "Change me",
   },
   {
@@ -104,7 +113,7 @@ const timelineData = [
     title: "Scotland",
     description: "3 Days Exploring Glasgow & Edinburgh",
     colour: inheritColour,
-    imageUrl: "/scotland.png",
+    imageUrl: scotlandPic,
     imageAlt: "Change me",
   },
   {
@@ -113,7 +122,7 @@ const timelineData = [
     title: "Liverpool",
     description: "One day trip to Liverpool!",
     colour: successColour,
-    imageUrl: "/liverpool.png",
+    imageUrl: liverpoolPic,
     imageAlt: "Change me",
   },
   {
@@ -122,14 +131,20 @@ const timelineData = [
     title: "Our Graduation",
     description: "BSc Software Engineering, UCLAN, Preston, United Kingdom",
     colour: secondaryColour,
-    imageUrl: "/graduationUclan.png",
+    imageUrl: graduationUclanPic,
     imageAlt: "Change me",
   },
 ];
 
 export default function CustomizedTimeline() {
-  const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
-  const [selectedImageAlt, setSelectedImageAlt] = useState<string | null>(null);
+  // const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
+  const [selectedImageUrl, setSelectedImageUrl] = useState<
+    string | StaticImageData | null
+  >(null);
+
+  const [selectedImageAlt, setSelectedImageAlt] = useState<
+    string | StaticImageData | null
+  >(null);
 
   const resetSelectedImage = () => {
     setSelectedImageUrl(null);
@@ -148,13 +163,11 @@ export default function CustomizedTimeline() {
   return (
     <>
       <Stack
-        direction={"row"}
-        // bgcolor={"wheat"}
+        justifyContent={{ xs: "center", md: "space-evenly" }}
+        direction={{ xs: "column", md: "row" }}
       >
         {/* Timeline */}
-        <Stack
-        //  bgcolor={"thistle"}
-        >
+        <Stack>
           <Timeline position="alternate">
             {timelineData.map((item, index) => (
               <TimelineItem key={index}>
@@ -187,7 +200,12 @@ export default function CustomizedTimeline() {
                   <TimelineConnector />
                 </TimelineSeparator>
                 <TimelineContent sx={{ py: "12px", px: 2 }}>
-                  <Typography variant="h6" component="span">
+                  <Typography
+                    variant="h6"
+                    fontStyle={"oblique"}
+                    // fontWeight={500}
+                    component="span"
+                  >
                     {item.title}
                   </Typography>
                   <Typography>{item.description}</Typography>
@@ -197,11 +215,12 @@ export default function CustomizedTimeline() {
           </Timeline>
         </Stack>
         {/* Pictures */}
+
         <Stack
+          alignItems={"center"}
           justifyContent={"center"}
-          // bgcolor={"pink"}
-          width={500}
-          height={500}
+          width={{ xs: "100vw", md: 700 }}
+          height={{ xs: "100vh", md: 900 }}
         >
           {selectedImageUrl && selectedImageAlt && (
             <Pictures
@@ -213,8 +232,6 @@ export default function CustomizedTimeline() {
           )}
         </Stack>
       </Stack>
-      {/*  */}
-      <Stack bgcolor={"pink"}></Stack>
     </>
   );
 }
