@@ -25,8 +25,8 @@ export const Pictures = ({
 
   return (
     <Stack
-      width={600}
-      height={800}
+      width={{ xs: 300, md: 600 }}
+      height={{ xs: 300, md: 800 }}
       bgcolor={"orangered"}
       justifyContent={"center"}
       alignItems={"center"}
