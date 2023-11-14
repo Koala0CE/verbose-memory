@@ -165,13 +165,9 @@ export default function CustomizedTimeline() {
       <Stack
         justifyContent={{ xs: "center", md: "space-evenly" }}
         direction={{ xs: "column", md: "row" }}
-        bgcolor={"wheat"}
       >
         {/* Timeline */}
-        <Stack
-          bgcolor={"thistle"}
-          //  bgcolor={"thistle"}
-        >
+        <Stack>
           <Timeline position="alternate">
             {timelineData.map((item, index) => (
               <TimelineItem key={index}>
@@ -223,7 +219,6 @@ export default function CustomizedTimeline() {
         <Stack
           alignItems={"center"}
           justifyContent={"center"}
-          bgcolor={"pink"}
           width={{ xs: "100vw", md: 700 }}
           height={{ xs: "100vh", md: 900 }}
         >
