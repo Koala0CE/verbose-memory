@@ -163,8 +163,8 @@ export default function CustomizedTimeline() {
   return (
     <>
       <Stack
-        justifyContent={"space-evenly"}
-        direction={"row"}
+        justifyContent={{ xs: "center", md: "space-evenly" }}
+        direction={{ xs: "column", md: "row" }}
         bgcolor={"wheat"}
       >
         {/* Timeline */}
@@ -216,12 +216,11 @@ export default function CustomizedTimeline() {
         {/* Pictures */}
 
         <Stack
-          display={"flex"}
           alignItems={"center"}
           justifyContent={"center"}
           bgcolor={"pink"}
-          width={700}
-          height={900}
+          width={{ xs: "100vw", md: 700 }}
+          height={{ xs: "100vh", md: 900 }}
         >
           {selectedImageUrl && selectedImageAlt && (
             <Pictures
