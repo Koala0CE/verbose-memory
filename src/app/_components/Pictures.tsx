@@ -52,20 +52,13 @@ export const Pictures = ({
           onError={() => setImageLoadError(true)}
           width={700}
           height={475}
+          placeholder="blur"
           sizes="100vw"
           style={{
             width: "100%",
             height: "auto",
           }}
-          // sizes="100vw"
-          // style={{
-          //   width: "100%",
-          //   height: "auto",
-          // }}
-          // width={200}
-          // height={500}
           src={imageUrl}
-          // alt={imageAlt}
           alt={typeof imageAlt === "string" ? imageAlt : "Fallback Alt Text"}
         />
       )}
