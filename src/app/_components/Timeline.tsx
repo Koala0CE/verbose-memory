@@ -27,13 +27,13 @@ import SchoolIcon from "@mui/icons-material/School";
 import { useEffect, useState } from "react";
 import { Pictures } from "./Pictures";
 import Image, { StaticImageData } from "next/image";
-import liverpoolPic from "/public/liverpool.png";
-import blackpoolPic from "/public/blackpool.png";
-import londonPic from "/public/london.png";
-import airPlantsPic from "/public/airPlants.png";
-import bucharestPic from "/public/bucharest.png";
-import scotlandPic from "/public/scotland.png";
-import graduationUclanPic from "/public/graduationUclan.png";
+import liverpoolPic from "/public/liverpool.webp";
+import blackpoolPic from "/public/blackpool.webp";
+import londonPic from "/public/london.webp";
+import airplantsPic from "/public/airplants.webp";
+import graduationAlepPic from "/public/graduationALE.webp";
+import scotlandPic from "/public/scotland.webp";
+import graduationUclanPic from "/public/graduationUCLAN.webp";
 import SwipeableEdgeDrawer from "./Drawer";
 
 const colour: any = "primary";
@@ -57,7 +57,7 @@ const timelineData = [
     title: "1st Date",
     description: "Valentine's Day!",
     colour: errorColour,
-    imageUrl: airPlantsPic,
+    imageUrl: airplantsPic,
 
     imageAlt: "Change me",
   },
@@ -85,7 +85,7 @@ const timelineData = [
     title: "First date night",
     description: "Before Jupi's Easter Holiday!",
     colour: successColour,
-    imageUrl: airPlantsPic,
+    imageUrl: airplantsPic,
     imageAlt: "Change me",
   },
   {
@@ -94,7 +94,7 @@ const timelineData = [
     title: "Military Field Trip",
     description: "Uni trip to Preston - Fulwood!",
     colour: infoColour,
-    imageUrl: airPlantsPic,
+    imageUrl: airplantsPic,
     imageAlt: "Change me",
   },
   {
@@ -103,7 +103,7 @@ const timelineData = [
     title: "Ale's graduation",
     description: "One week trip to Bucharest! Graduation ceremony On the 16th",
     colour: successColour,
-    imageUrl: bucharestPic,
+    imageUrl: graduationAlepPic,
     imageAlt: "Change me",
   },
   {
@@ -112,7 +112,7 @@ const timelineData = [
     title: "Meeting Jupi's Familiy",
     description: "One week trip to Austria!",
     colour: warningColour,
-    imageUrl: airPlantsPic,
+    imageUrl: airplantsPic,
     imageAlt: "Change me",
   },
   {
@@ -191,7 +191,6 @@ export default function CustomizedTimeline() {
   return (
     <>
       <Stack
-        bgcolor={"yellow"}
         justifyContent={{ xs: "center", md: "space-evenly" }}
         direction={{ xs: "column", md: "row" }}
       >
@@ -259,22 +258,23 @@ export default function CustomizedTimeline() {
             zIndex: 999,
           }} */}
         {/* > */}
+
+        {isMobile && (
+          <IconButton onClick={handleToggleDrawer}>
+            <SwipeableEdgeDrawer
+              imageSrc={selectedImageUrl}
+              isOpen={isDrawerOpen}
+              onToggleDrawer={handleToggleDrawer}
+            />
+          </IconButton>
+        )}
         <Stack
+          bgcolor={"olive"}
           alignItems={"center"}
           justifyContent={"center"}
           width={{ xs: "100vw", md: 700 }}
           height={{ xs: "100vh", md: 900 }}
         >
-          {isMobile && (
-            <IconButton onClick={handleToggleDrawer}>
-              <SwipeableEdgeDrawer
-                imageSrc={selectedImageUrl}
-                isOpen={isDrawerOpen}
-                onToggleDrawer={handleToggleDrawer}
-              />
-            </IconButton>
-          )}
-
           {isDesktop && selectedImageUrl && selectedImageAlt && (
             <Pictures
               imageUrl={selectedImageUrl}
