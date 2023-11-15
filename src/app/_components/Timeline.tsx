@@ -269,7 +269,6 @@ export default function CustomizedTimeline() {
           </IconButton>
         )}
         <Stack
-          bgcolor={"olive"}
           alignItems={"center"}
           justifyContent={"center"}
           width={{ xs: "100vw", md: 700 }}
