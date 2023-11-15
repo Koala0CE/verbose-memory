@@ -7,7 +7,14 @@ import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
-import { Box, IconButton, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  Stack,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import LoyaltySharpIcon from "@mui/icons-material/LoyaltySharp";
 import WaterSharpIcon from "@mui/icons-material/WaterSharp";
 import NightShelterSharpIcon from "@mui/icons-material/NightShelterSharp";
@@ -27,6 +34,7 @@ import airPlantsPic from "/public/airPlants.png";
 import bucharestPic from "/public/bucharest.png";
 import scotlandPic from "/public/scotland.png";
 import graduationUclanPic from "/public/graduationUclan.png";
+import SwipeableEdgeDrawer from "./Drawer";
 
 const colour: any = "primary";
 const secondaryColour = "secondary";
@@ -137,22 +145,42 @@ const timelineData = [
 ];
 
 export default function CustomizedTimeline() {
-  // const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
+  // Retrieve the current theme using the useTheme hook from MUI
+  const theme = useTheme();
+
+  // Determine if the screen size is considered as mobile
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  // Determine if the screen size is considered as desktop
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+
+  // Initialize state to track the open/closed state of the drawer
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  // Define a function to toggle the state of the drawer between open and closed
+  const handleToggleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
+
+  // Initialize state to track the selected image URL, allowing for string, StaticImageData, or null
   const [selectedImageUrl, setSelectedImageUrl] = useState<
     string | StaticImageData | null
   >(null);
 
+  // Initialize state to track the alternative text for the selected image ALT, allowing for string, StaticImageData, or null
   const [selectedImageAlt, setSelectedImageAlt] = useState<
     string | StaticImageData | null
   >(null);
 
+  // Define a function to reset the selected image URL and alternative text to null
   const resetSelectedImage = () => {
     setSelectedImageUrl(null);
     setSelectedImageAlt(null);
   };
 
   useEffect(() => {
-    // Handle state updates here
+    // Effect to handle updates when selectedImageUrl or selectedImageAlt change
+
+    // Check if both selectedImageUrl and selectedImageAlt are not null
     if (selectedImageUrl !== null && selectedImageAlt !== null) {
       // This block will execute after state updates
       console.log("Selected Image URL:", selectedImageUrl);
@@ -163,11 +191,12 @@ export default function CustomizedTimeline() {
   return (
     <>
       <Stack
+        bgcolor={"yellow"}
         justifyContent={{ xs: "center", md: "space-evenly" }}
         direction={{ xs: "column", md: "row" }}
       >
         {/* Timeline */}
-        <Stack>
+        <Stack bgcolor={"wheat"}>
           <Timeline position="alternate">
             {timelineData.map((item, index) => (
               <TimelineItem key={index}>
@@ -187,8 +216,12 @@ export default function CustomizedTimeline() {
                       size="small"
                       aria-label="delete"
                       onClick={() => {
-                        setSelectedImageUrl(null); // Reset the selected image
-                        setSelectedImageAlt(null); // Reset the selected alt text
+                        setIsDrawerOpen(!isDrawerOpen);
+
+                        resetSelectedImage;
+
+                        // setSelectedImageUrl(null); // Reset the selected image
+                        // setSelectedImageAlt(null); // Reset the selected alt text
 
                         setSelectedImageUrl(item.imageUrl);
                         setSelectedImageAlt(item.imageAlt);
@@ -216,13 +249,33 @@ export default function CustomizedTimeline() {
         </Stack>
         {/* Pictures */}
 
+        {/* <div
+          style={{
+            position: "fixed",
+            top: 0,
+            // left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 999,
+          }} */}
+        {/* > */}
         <Stack
           alignItems={"center"}
           justifyContent={"center"}
           width={{ xs: "100vw", md: 700 }}
           height={{ xs: "100vh", md: 900 }}
         >
-          {selectedImageUrl && selectedImageAlt && (
+          {isMobile && (
+            <IconButton onClick={handleToggleDrawer}>
+              <SwipeableEdgeDrawer
+                imageSrc={selectedImageUrl}
+                isOpen={isDrawerOpen}
+                onToggleDrawer={handleToggleDrawer}
+              />
+            </IconButton>
+          )}
+
+          {isDesktop && selectedImageUrl && selectedImageAlt && (
             <Pictures
               imageUrl={selectedImageUrl}
               imageAlt={selectedImageUrl}
@@ -231,18 +284,8 @@ export default function CustomizedTimeline() {
             />
           )}
         </Stack>
+        {/* </div> */}
       </Stack>
     </>
   );
-}
-
-{
-  /* <IconButton
-            href="/album"
-            size="small"
-            aria-label="delete"
-            onClick={() => handleButtonClick(item.icon)}
-          >
-            {<item.icon />}
-          </IconButton> */
 }
