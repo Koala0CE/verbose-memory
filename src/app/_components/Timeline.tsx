@@ -195,7 +195,7 @@ export default function CustomizedTimeline() {
         direction={{ xs: "column", md: "row" }}
       >
         {/* Timeline */}
-        <Stack bgcolor={"wheat"}>
+        <Stack>
           <Timeline position="alternate">
             {timelineData.map((item, index) => (
               <TimelineItem key={index}>
@@ -274,6 +274,7 @@ export default function CustomizedTimeline() {
           justifyContent={"center"}
           width={{ xs: "100vw", md: 700 }}
           height={{ xs: "100vh", md: 900 }}
+          style={{ display: selectedImageUrl ? "flex" : "none" }}
         >
           {isDesktop && selectedImageUrl && selectedImageAlt && (
             <Pictures
