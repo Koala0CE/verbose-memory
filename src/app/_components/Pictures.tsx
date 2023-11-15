@@ -52,6 +52,7 @@ export const Pictures = ({
           onError={() => setImageLoadError(true)}
           width={700}
           height={475}
+          placeholder="blur"
           sizes="100vw"
           style={{
             width: "100%",
