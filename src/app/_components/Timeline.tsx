@@ -259,7 +259,7 @@ export default function CustomizedTimeline() {
           }} */}
         {/* > */}
 
-        {isMobile && (
+        {isMobile && selectedImageUrl && (
           <IconButton onClick={handleToggleDrawer}>
             <SwipeableEdgeDrawer
               imageSrc={selectedImageUrl}
