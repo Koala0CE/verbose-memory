@@ -1,9 +1,9 @@
 import { Stack, Tooltip } from "@mui/material";
 import React from "react";
-import Login from "../login";
 import Logout from "./Logout";
 import Image from "next/image";
 import { useUser } from "@auth0/nextjs-auth0/client";
+import Login from "./Login";
 
 export const NavBar = () => {
   const { user, error, isLoading } = useUser();
