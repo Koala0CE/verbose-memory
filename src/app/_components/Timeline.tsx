@@ -23,6 +23,7 @@ import { getRandomColour } from "../utils/randomColour";
 
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { dummyData } from "../utils/dummyData";
+import { checkUserRole } from "../lib/roleChecker";
 
 const fallback = {
   image: "/airPlants.png",
@@ -39,33 +40,21 @@ export default function CustomizedTimeline() {
   const { user } = useUser();
 
   useEffect(() => {
-    // Check if user roles are available in the user object
-    if (user && user["dev-n5bu2xj1ymmy2h22.eu.auth0.com/roles"]) {
-      // Explicitly cast user to a type that includes the roles property
-      const userWithRoles = user as {
-        "dev-n5bu2xj1ymmy2h22.eu.auth0.com/roles": string[];
+    const hasFriendsAndFamilyRole = checkUserRole(user);
+
+    // Update the state variable
+    setIsFriendsAndFamily(hasFriendsAndFamilyRole);
+
+    // Fetch and set contentful data only if the user has the required role
+    if (hasFriendsAndFamilyRole) {
+      const fetchData = async () => {
+        const data = await fetchContentfulData();
+        setContentfulData(data);
       };
 
-      const userRoles =
-        userWithRoles["dev-n5bu2xj1ymmy2h22.eu.auth0.com/roles"];
-
-      // Check if the user has the "Friends & Family" role
-      const hasFriendsAndFamilyRole = userRoles.includes("Friends & Family");
-
-      // Update the state variable
-      setIsFriendsAndFamily(hasFriendsAndFamilyRole);
-
-      // Fetch and set contentful data only if the user has the required role
-      if (hasFriendsAndFamilyRole) {
-        const fetchData = async () => {
-          const data = await fetchContentfulData();
-          setContentfulData(data);
-        };
-
-        fetchData();
-      } else {
-        setContentfulData(dummyData);
-      }
+      fetchData();
+    } else {
+      setContentfulData(dummyData);
     }
   }, [user]);
 
