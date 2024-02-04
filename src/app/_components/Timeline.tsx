@@ -18,7 +18,11 @@ import { useEffect, useState } from "react";
 import { Pictures } from "./Pictures";
 import { StaticImageData } from "next/image";
 import SwipeableEdgeDrawer from "./Drawer";
-import { timelineData } from "../_exports/timelineData";
+import { ContentfulResponse, fetchContentfulData } from "../contentfulApi";
+import { getRandomColour } from "../utils/randomColour";
+
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { dummyData } from "../utils/dummyData";
 
 const fallback = {
   image: "/airPlants.png",
@@ -26,6 +30,45 @@ const fallback = {
 };
 
 export default function CustomizedTimeline() {
+  const [isFriendsAndFamily, setIsFriendsAndFamily] = useState(false);
+
+  const [contentfulData, setContentfulData] =
+    useState<ContentfulResponse | null>(null);
+
+  // Use the useUser hook to get the user object
+  const { user } = useUser();
+
+  useEffect(() => {
+    // Check if user roles are available in the user object
+    if (user && user["dev-n5bu2xj1ymmy2h22.eu.auth0.com/roles"]) {
+      // Explicitly cast user to a type that includes the roles property
+      const userWithRoles = user as {
+        "dev-n5bu2xj1ymmy2h22.eu.auth0.com/roles": string[];
+      };
+
+      const userRoles =
+        userWithRoles["dev-n5bu2xj1ymmy2h22.eu.auth0.com/roles"];
+
+      // Check if the user has the "Friends & Family" role
+      const hasFriendsAndFamilyRole = userRoles.includes("Friends & Family");
+
+      // Update the state variable
+      setIsFriendsAndFamily(hasFriendsAndFamilyRole);
+
+      // Fetch and set contentful data only if the user has the required role
+      if (hasFriendsAndFamilyRole) {
+        const fetchData = async () => {
+          const data = await fetchContentfulData();
+          setContentfulData(data);
+        };
+
+        fetchData();
+      } else {
+        setContentfulData(dummyData);
+      }
+    }
+  }, [user]);
+
   // Retrieve the current theme using the useTheme hook from MUI
   const theme = useTheme();
 
@@ -78,37 +121,46 @@ export default function CustomizedTimeline() {
         {/* Timeline */}
         <Stack>
           <Timeline position="alternate">
-            {timelineData.map((item, index) => (
-              <TimelineItem key={index}>
+            {contentfulData?.items.map((item) => (
+              <TimelineItem key={item.sys.id}>
                 <TimelineOppositeContent
                   sx={{ m: "auto 0" }}
                   variant="body2"
                   color={"white"}
                 >
-                  {item.date}
+                  {item.fields.date}
                 </TimelineOppositeContent>
                 <TimelineSeparator>
                   <TimelineConnector />
-                  <TimelineDot color={item.colour}>
-                    <IconButton
-                      sx={{ color: "white" }}
-                      // href="/album"
-                      size="small"
-                      aria-label="delete"
-                      onClick={() => {
-                        setIsDrawerOpen(!isDrawerOpen);
+                  <TimelineDot color={getRandomColour()}>
+                    {item.fields.image && (
+                      <IconButton
+                        sx={{ color: "white" }}
+                        // href="/album"
+                        size="small"
+                        aria-label="delete"
+                        onClick={() => {
+                          setIsDrawerOpen(!isDrawerOpen);
 
-                        resetSelectedImage;
+                          resetSelectedImage();
 
-                        // setSelectedImageUrl(null); // Reset the selected image
-                        // setSelectedImageAlt(null); // Reset the selected alt text
+                          const selectedAsset =
+                            contentfulData?.includes.Asset.find(
+                              (asset) =>
+                                asset.sys.id === item.fields.image?.sys.id
+                            );
 
-                        setSelectedImageUrl(item.imageUrl);
-                        setSelectedImageAlt(item.imageAlt);
-                      }}
-                    >
-                      {<item.icon />}
-                    </IconButton>
+                          setSelectedImageUrl(
+                            selectedAsset?.fields.file.url || ""
+                          );
+                          setSelectedImageAlt(
+                            selectedAsset?.fields.file.fileName || ""
+                          );
+                        }}
+                      >
+                        {/* {<item.icon />} */}
+                      </IconButton>
+                    )}
                   </TimelineDot>
                   <TimelineConnector />
                 </TimelineSeparator>
@@ -116,30 +168,18 @@ export default function CustomizedTimeline() {
                   <Typography
                     variant="h6"
                     fontStyle={"oblique"}
-                    // fontWeight={500}
                     component="span"
                   >
-                    {item.title}
+                    {item.fields.title}
                   </Typography>
-                  <Typography>{item.description}</Typography>
+                  <Typography>{item.fields.description}</Typography>
                 </TimelineContent>
               </TimelineItem>
             ))}
           </Timeline>
         </Stack>
+
         {/* Pictures */}
-
-        {/* <div
-          style={{
-            position: "fixed",
-            top: 0,
-            // left: 0,
-            right: 0,
-            bottom: 0,
-            zIndex: 999,
-          }} */}
-        {/* > */}
-
         {isMobile && selectedImageUrl && (
           <IconButton onClick={handleToggleDrawer}>
             <SwipeableEdgeDrawer
@@ -165,7 +205,6 @@ export default function CustomizedTimeline() {
             />
           )}
         </Stack>
-        {/* </div> */}
       </Stack>
     </>
   );
