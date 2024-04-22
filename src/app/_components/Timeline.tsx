@@ -7,9 +7,13 @@ import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
+import Image from "next/image";
 import {
+  AppBar,
+  Box,
   IconButton,
   Stack,
+  Toolbar,
   Typography,
   useMediaQuery,
   useTheme,
@@ -24,6 +28,7 @@ import { getRandomColour } from "../utils/randomColour";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { dummyData } from "../utils/dummyData";
 import { checkUserRole } from "../lib/roleChecker";
+import { Hero } from "./Hero";
 
 const fallback = {
   image: "/airPlants.png",
@@ -104,68 +109,85 @@ export default function CustomizedTimeline() {
   return (
     <>
       <Stack
+        // bgcolor={"blueviolet"}
+        height={"100vh"}
         justifyContent={{ xs: "center", md: "space-evenly" }}
         direction={{ xs: "column", md: "row" }}
       >
-        {/* Timeline */}
-        <Stack>
-          <Timeline position="alternate">
-            {contentfulData?.items.map((item) => (
-              <TimelineItem key={item.sys.id}>
-                <TimelineOppositeContent
-                  sx={{ m: "auto 0" }}
-                  variant="body2"
-                  color={"white"}
-                >
-                  {item.fields.date}
-                </TimelineOppositeContent>
-                <TimelineSeparator>
-                  <TimelineConnector />
-                  <TimelineDot color={getRandomColour()}>
-                    {item.fields.image && (
-                      <IconButton
-                        sx={{ color: "white" }}
-                        // href="/album"
-                        size="small"
-                        aria-label="delete"
-                        onClick={() => {
-                          setIsDrawerOpen(!isDrawerOpen);
-
-                          resetSelectedImage();
-
-                          const selectedAsset =
-                            contentfulData?.includes.Asset.find(
-                              (asset) =>
-                                asset.sys.id === item.fields.image?.sys.id
-                            );
-
-                          setSelectedImageUrl(
-                            selectedAsset?.fields.file.url || ""
-                          );
-                          setSelectedImageAlt(
-                            selectedAsset?.fields.file.fileName || ""
-                          );
-                        }}
-                      >
-                        {/* {<item.icon />} */}
-                      </IconButton>
-                    )}
-                  </TimelineDot>
-                  <TimelineConnector />
-                </TimelineSeparator>
-                <TimelineContent sx={{ py: "12px", px: 2 }}>
-                  <Typography
-                    variant="h6"
-                    fontStyle={"oblique"}
-                    component="span"
+        <Stack direction={"column"} bgcolor={"purple"}>
+          {/* Timeline */}
+          <Stack
+            overflow={"scroll"}
+            height={"60vh"}
+            // border={10}
+            borderColor={"purple"}
+            bgcolor={"black"}
+          >
+            <Timeline position="alternate">
+              {contentfulData?.items.map((item) => (
+                <TimelineItem key={item.sys.id}>
+                  <TimelineOppositeContent
+                    sx={{ m: "auto 0" }}
+                    variant="body2"
+                    color={"white"}
                   >
-                    {item.fields.title}
-                  </Typography>
-                  <Typography>{item.fields.description}</Typography>
-                </TimelineContent>
-              </TimelineItem>
-            ))}
-          </Timeline>
+                    {item.fields.date}
+                  </TimelineOppositeContent>
+                  <TimelineSeparator>
+                    <TimelineConnector />
+                    <TimelineDot color={getRandomColour()}>
+                      {item.fields.image && (
+                        <IconButton
+                          sx={{ color: "white" }}
+                          // href="/album"
+                          size="small"
+                          aria-label="delete"
+                          onClick={() => {
+                            setIsDrawerOpen(!isDrawerOpen);
+
+                            resetSelectedImage();
+
+                            const selectedAsset =
+                              contentfulData?.includes.Asset.find(
+                                (asset) =>
+                                  asset.sys.id === item.fields.image?.sys.id
+                              );
+
+                            setSelectedImageUrl(
+                              selectedAsset?.fields.file.url || ""
+                            );
+                            setSelectedImageAlt(
+                              selectedAsset?.fields.file.fileName || ""
+                            );
+                          }}
+                        >
+                          {/* {<item.icon />} */}
+                        </IconButton>
+                      )}
+                    </TimelineDot>
+                    <TimelineConnector />
+                  </TimelineSeparator>
+                  <TimelineContent sx={{ py: "12px", px: 2 }}>
+                    <Typography
+                      variant="h6"
+                      fontStyle={"oblique"}
+                      component="span"
+                    >
+                      {item.fields.title}
+                    </Typography>
+                    <Typography>{item.fields.description}</Typography>
+                  </TimelineContent>
+                </TimelineItem>
+              ))}
+            </Timeline>
+          </Stack>
+
+          <Stack alignItems={"center"}>
+            <Box>
+              <Image width={80} height={80} alt="sharko" src={"/shark-2.png"} />
+            </Box>
+            <Hero />
+          </Stack>
         </Stack>
 
         {/* Pictures */}
@@ -182,8 +204,10 @@ export default function CustomizedTimeline() {
           alignItems={"center"}
           justifyContent={"center"}
           width={{ xs: "100vw", md: 700 }}
-          height={{ xs: "100vh", md: 900 }}
-          style={{ display: selectedImageUrl ? "flex" : "none" }}
+          height={{ xs: "100vh", md: 900, lg: "100vh " }}
+          style={{
+            display: selectedImageUrl ? "flex" : "none",
+          }}
         >
           {isDesktop && selectedImageUrl && selectedImageAlt && (
             <Pictures

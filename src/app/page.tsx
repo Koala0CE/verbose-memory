@@ -34,7 +34,7 @@ export default function Home() {
       <NavBar />
 
       <Stack spacing={5} mt={5} justifyContent={"center"} alignItems={"center"}>
-        <Hero />
+        {/* <Hero /> */}
         <CustomizedTimeline />
       </Stack>
     </ThemeProvider>

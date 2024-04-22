@@ -16,9 +16,11 @@ export const Hero = () => {
   return (
     <Stack>
       <Typography
+        textAlign={"center"}
+        width={{ xs: 300, md: 400 }}
         fontStyle={"italic"}
         fontWeight={500}
-        fontSize={{ xs: "1.5rem", md: "5rem" }}
+        fontSize={{ xs: "1.5rem", md: "3.5rem" }}
       >
         {hasRole ? "Adventures of Jupi & Elvy" : "Adventures of Jupi & Elvy"}
       </Typography>

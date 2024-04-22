@@ -76,9 +76,15 @@ export const fetchContentfulData =
       });
 
       // sorting by index
-      const sortedData = response.data.items.sort(
-        (a, b) => a.fields.index - b.fields.index
-      );
+      // const sortedData = response.data.items.sort(
+      //   (a, b) => a.fields.index - b.fields.index
+      // );
+
+      const sortedData = response.data.items.sort((a, b) => {
+        if (a.fields.index === undefined) return 1; // a is sent to the end
+        if (b.fields.index === undefined) return -1; // b is sent to the end
+        return a.fields.index - b.fields.index; // otherwise, sort normally
+      });
 
       // Parse data (example: format dates)
       sortedData.map((item) => {
