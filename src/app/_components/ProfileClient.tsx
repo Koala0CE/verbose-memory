@@ -1,13 +1,13 @@
 "use client";
 
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { Stack, Typography } from "@mui/material";
+import { LinearProgress, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 
 export default function ProfileClient() {
   const { user, error, isLoading } = useUser();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <LinearProgress color="secondary" />;
   if (error) return <div>{error.message}</div>;
 
   return (
