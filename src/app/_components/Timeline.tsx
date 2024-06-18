@@ -47,23 +47,27 @@ export default function CustomizedTimeline() {
   const { user } = useUser();
 
   useEffect(() => {
-    const hasFriendsAndFamilyRole = checkUserRole(user);
+    const fetchData = async () => {
+      try {
+        const data = await fetchContentfulData();
+        setContentfulData(data);
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+        setContentfulData(dummyData); // Fallback to dummy data in case of error
+      }
+      setIsLoading(false);
+    };
 
+    const hasFriendsAndFamilyRole = checkUserRole(user);
     // Update the state variable
     setIsFriendsAndFamily(hasFriendsAndFamilyRole);
 
     // Fetch and set contentful data only if the user has the required role
     if (hasFriendsAndFamilyRole) {
-      const fetchData = async () => {
-        const data = await fetchContentfulData();
-        setContentfulData(data);
-        setIsLoading(false);
-      };
-
       fetchData();
     } else {
       setContentfulData(dummyData);
-      //setIsLoading(false);
+      setTimeout(() => setIsLoading(false), 1000);
     }
   }, [user]);
 
@@ -130,68 +134,71 @@ export default function CustomizedTimeline() {
             // bgcolor={"#d1c4e9"}
           >
             <Timeline position="alternate">
-              {contentfulData?.items.map((item) => (
-                <TimelineItem key={item.sys.id}>
-                  <TimelineOppositeContent
-                    sx={{ m: "auto 0" }}
-                    variant="body2"
-                    color={"purple"}
-                  >
-                    {isLoading ? <Skeleton /> : item.fields.date}
-                  </TimelineOppositeContent>
-                  {isLoading ? (
-                    <Skeleton />
-                  ) : (
-                    <TimelineSeparator>
-                      <TimelineConnector />
+              {contentfulData?.items
+                ? contentfulData.items.map((item) => (
+                    <TimelineItem key={item.sys.id}>
+                      <TimelineOppositeContent
+                        sx={{ m: "auto 0" }}
+                        variant="body2"
+                        color={"purple"}
+                      >
+                        {isLoading ? <Skeleton /> : item.fields.date}
+                      </TimelineOppositeContent>
+                      {isLoading ? (
+                        <Skeleton />
+                      ) : (
+                        <TimelineSeparator>
+                          <TimelineConnector />
 
-                      <TimelineDot color={getRandomColour()}>
-                        {item.fields.image && (
-                          <IconButton
-                            sx={{ color: "white" }}
-                            // href="/album"
-                            size="small"
-                            aria-label="delete"
-                            onClick={() => {
-                              setIsDrawerOpen(!isDrawerOpen);
+                          <TimelineDot color={getRandomColour()}>
+                            {item.fields.image && (
+                              <IconButton
+                                sx={{ color: "white" }}
+                                // href="/album"
+                                size="small"
+                                aria-label="delete"
+                                onClick={() => {
+                                  setIsDrawerOpen(!isDrawerOpen);
 
-                              resetSelectedImage();
+                                  resetSelectedImage();
 
-                              const selectedAsset =
-                                contentfulData?.includes.Asset.find(
-                                  (asset) =>
-                                    asset.sys.id === item.fields.image?.sys.id
-                                );
+                                  const selectedAsset =
+                                    contentfulData?.includes.Asset.find(
+                                      (asset) =>
+                                        asset.sys.id ===
+                                        item.fields.image?.sys.id
+                                    );
 
-                              setSelectedImageUrl(
-                                selectedAsset?.fields.file.url || ""
-                              );
-                              setSelectedImageAlt(
-                                selectedAsset?.fields.file.fileName || ""
-                              );
-                            }}
-                          >
-                            {/* {<item.icon />} */}
-                          </IconButton>
-                        )}
-                      </TimelineDot>
-                      <TimelineConnector />
-                    </TimelineSeparator>
-                  )}
-                  <TimelineContent sx={{ py: "12px", px: 2 }}>
-                    <Typography
-                      variant="h6"
-                      fontStyle={"oblique"}
-                      component="span"
-                    >
-                      {isLoading ? <Skeleton /> : item.fields.title}
-                    </Typography>
-                    <Typography>
-                      {isLoading ? <Skeleton /> : item.fields.description}
-                    </Typography>
-                  </TimelineContent>
-                </TimelineItem>
-              ))}
+                                  setSelectedImageUrl(
+                                    selectedAsset?.fields.file.url || ""
+                                  );
+                                  setSelectedImageAlt(
+                                    selectedAsset?.fields.file.fileName || ""
+                                  );
+                                }}
+                              >
+                                {/* {<item.icon />} */}
+                              </IconButton>
+                            )}
+                          </TimelineDot>
+                          <TimelineConnector />
+                        </TimelineSeparator>
+                      )}
+                      <TimelineContent sx={{ py: "12px", px: 2 }}>
+                        <Typography
+                          variant="h6"
+                          fontStyle={"oblique"}
+                          component="span"
+                        >
+                          {isLoading ? <Skeleton /> : item.fields.title}
+                        </Typography>
+                        <Typography>
+                          {isLoading ? <Skeleton /> : item.fields.description}
+                        </Typography>
+                      </TimelineContent>
+                    </TimelineItem>
+                  ))
+                : null}
             </Timeline>
           </Stack>
 
