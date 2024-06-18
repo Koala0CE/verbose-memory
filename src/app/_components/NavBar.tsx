@@ -24,6 +24,7 @@ export const NavBar = () => {
       {user ? (
         <>
           <Logout />
+
           <Tooltip title={user.nickname}>
             <Image
               width={30}
