@@ -1,4 +1,4 @@
-import { Stack, Tooltip } from "@mui/material";
+import { LinearProgress, Stack, Tooltip } from "@mui/material";
 import React from "react";
 import Logout from "./Logout";
 import Image from "next/image";
@@ -8,8 +8,8 @@ import Login from "./Login";
 export const NavBar = () => {
   const { user, error, isLoading } = useUser();
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>{error.message}</div>;
+  if (isLoading) return <LinearProgress color="secondary" />;
+  if (error) return <LinearProgress color="inherit" />;
 
   return (
     <Stack
