@@ -26,6 +26,19 @@ export const dummyData: ContentfulResponse = {
         index: 1,
       },
     },
+    // Additional entries
+    ...Array.from({ length: 10 }, (_, i) => i + 3).map((i) => ({
+      sys: {
+        id: `${i}`,
+      },
+      fields: {
+        internalName: `dummyInternalName${i}`,
+        title: `Dummy Title ${i}`,
+        description: `Dummy Description ${i}`,
+        date: `2022-01-${i < 10 ? "0" + i : i}`,
+        index: i - 1,
+      },
+    })),
   ],
   includes: {
     Asset: [
@@ -50,27 +63,28 @@ export const dummyData: ContentfulResponse = {
           },
         },
       },
-      {
+      // Additional assets
+      ...Array.from({ length: 10 }, (_, i) => i + 3).map((i) => ({
         sys: {
-          id: "asset2",
+          id: `asset${i}`,
         },
         fields: {
-          title: "Dummy Asset 2",
-          description: "Dummy Asset Description 2",
+          title: `Dummy Asset ${i}`,
+          description: `Dummy Asset Description ${i}`,
           file: {
-            url: "https://example.com/dummy-asset-2.jpg",
+            url: `https://example.com/dummy-asset-${i}.jpg`,
             details: {
-              size: 2048,
+              size: 1024 * i,
               image: {
-                width: 1200,
-                height: 900,
+                width: 800,
+                height: 600,
               },
             },
-            fileName: "dummy-asset-2.jpg",
+            fileName: `dummy-asset-${i}.jpg`,
             contentType: "image/jpeg",
           },
         },
-      },
+      })),
     ],
   },
 };
