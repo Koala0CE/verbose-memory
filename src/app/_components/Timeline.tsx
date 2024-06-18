@@ -12,6 +12,7 @@ import {
   AppBar,
   Box,
   IconButton,
+  Skeleton,
   Stack,
   Toolbar,
   Typography,
@@ -38,6 +39,7 @@ const fallback = {
 export default function CustomizedTimeline() {
   const [isFriendsAndFamily, setIsFriendsAndFamily] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(true);
   const [contentfulData, setContentfulData] =
     useState<ContentfulResponse | null>(null);
 
@@ -55,11 +57,13 @@ export default function CustomizedTimeline() {
       const fetchData = async () => {
         const data = await fetchContentfulData();
         setContentfulData(data);
+        setIsLoading(false);
       };
 
       fetchData();
     } else {
       setContentfulData(dummyData);
+      //setIsLoading(false);
     }
   }, [user]);
 
@@ -106,6 +110,8 @@ export default function CustomizedTimeline() {
     }
   }, [selectedImageUrl, selectedImageAlt]);
 
+  // add skeleton loading
+
   return (
     <>
       <Stack
@@ -114,14 +120,14 @@ export default function CustomizedTimeline() {
         justifyContent={{ xs: "center", md: "space-evenly" }}
         direction={{ xs: "column", md: "row" }}
       >
-        <Stack direction={"column"} bgcolor={"purple"}>
+        <Stack direction={"column"} bgcolor={"transparent"}>
           {/* Timeline */}
           <Stack
             overflow={"scroll"}
             height={"60vh"}
             // border={10}
             borderColor={"purple"}
-            bgcolor={"black"}
+            // bgcolor={"#d1c4e9"}
           >
             <Timeline position="alternate">
               {contentfulData?.items.map((item) => (
@@ -129,53 +135,60 @@ export default function CustomizedTimeline() {
                   <TimelineOppositeContent
                     sx={{ m: "auto 0" }}
                     variant="body2"
-                    color={"white"}
+                    color={"purple"}
                   >
-                    {item.fields.date}
+                    {isLoading ? <Skeleton /> : item.fields.date}
                   </TimelineOppositeContent>
-                  <TimelineSeparator>
-                    <TimelineConnector />
-                    <TimelineDot color={getRandomColour()}>
-                      {item.fields.image && (
-                        <IconButton
-                          sx={{ color: "white" }}
-                          // href="/album"
-                          size="small"
-                          aria-label="delete"
-                          onClick={() => {
-                            setIsDrawerOpen(!isDrawerOpen);
+                  {isLoading ? (
+                    <Skeleton />
+                  ) : (
+                    <TimelineSeparator>
+                      <TimelineConnector />
 
-                            resetSelectedImage();
+                      <TimelineDot color={getRandomColour()}>
+                        {item.fields.image && (
+                          <IconButton
+                            sx={{ color: "white" }}
+                            // href="/album"
+                            size="small"
+                            aria-label="delete"
+                            onClick={() => {
+                              setIsDrawerOpen(!isDrawerOpen);
 
-                            const selectedAsset =
-                              contentfulData?.includes.Asset.find(
-                                (asset) =>
-                                  asset.sys.id === item.fields.image?.sys.id
+                              resetSelectedImage();
+
+                              const selectedAsset =
+                                contentfulData?.includes.Asset.find(
+                                  (asset) =>
+                                    asset.sys.id === item.fields.image?.sys.id
+                                );
+
+                              setSelectedImageUrl(
+                                selectedAsset?.fields.file.url || ""
                               );
-
-                            setSelectedImageUrl(
-                              selectedAsset?.fields.file.url || ""
-                            );
-                            setSelectedImageAlt(
-                              selectedAsset?.fields.file.fileName || ""
-                            );
-                          }}
-                        >
-                          {/* {<item.icon />} */}
-                        </IconButton>
-                      )}
-                    </TimelineDot>
-                    <TimelineConnector />
-                  </TimelineSeparator>
+                              setSelectedImageAlt(
+                                selectedAsset?.fields.file.fileName || ""
+                              );
+                            }}
+                          >
+                            {/* {<item.icon />} */}
+                          </IconButton>
+                        )}
+                      </TimelineDot>
+                      <TimelineConnector />
+                    </TimelineSeparator>
+                  )}
                   <TimelineContent sx={{ py: "12px", px: 2 }}>
                     <Typography
                       variant="h6"
                       fontStyle={"oblique"}
                       component="span"
                     >
-                      {item.fields.title}
+                      {isLoading ? <Skeleton /> : item.fields.title}
                     </Typography>
-                    <Typography>{item.fields.description}</Typography>
+                    <Typography>
+                      {isLoading ? <Skeleton /> : item.fields.description}
+                    </Typography>
                   </TimelineContent>
                 </TimelineItem>
               ))}
