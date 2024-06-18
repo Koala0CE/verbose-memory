@@ -7,144 +7,70 @@ import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
+import Image from "next/image";
 import {
+  AppBar,
   Box,
   IconButton,
+  Skeleton,
   Stack,
+  Toolbar,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import LoyaltySharpIcon from "@mui/icons-material/LoyaltySharp";
-import WaterSharpIcon from "@mui/icons-material/WaterSharp";
-import NightShelterSharpIcon from "@mui/icons-material/NightShelterSharp";
-import SportsSoccerIcon from "@mui/icons-material/SportsSoccer";
-import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
-import CastleIcon from "@mui/icons-material/Castle";
-import Groups2Icon from "@mui/icons-material/Groups2";
-import TapasIcon from "@mui/icons-material/Tapas";
-import SchoolIcon from "@mui/icons-material/School";
 import { useEffect, useState } from "react";
 import { Pictures } from "./Pictures";
-import Image, { StaticImageData } from "next/image";
-import liverpoolPic from "/public/liverpool.webp";
-import blackpoolPic from "/public/blackpool.webp";
-import londonPic from "/public/london.webp";
-import airplantsPic from "/public/airplants.webp";
-import graduationAlepPic from "/public/graduationALE.webp";
-import scotlandPic from "/public/scotland.webp";
-import graduationUclanPic from "/public/graduationUCLAN.webp";
+import { StaticImageData } from "next/image";
 import SwipeableEdgeDrawer from "./Drawer";
+import { ContentfulResponse, fetchContentfulData } from "../contentfulApi";
+import { getRandomColour } from "../utils/randomColour";
 
-const colour: any = "primary";
-const secondaryColour = "secondary";
-const successColour = "success";
-const errorColour = "error";
-const warningColour = "warning";
-const greyColour = "grey";
-const inheritColour = "inherit";
-const infoColour = "info";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { dummyData } from "../utils/dummyData";
+import { checkUserRole } from "../lib/roleChecker";
+import { Hero } from "./Hero";
 
 const fallback = {
   image: "/airPlants.png",
   alt: "Fallback image air plants",
 };
 
-const timelineData = [
-  {
-    date: "14 FEB 2022",
-    icon: LoyaltySharpIcon,
-    title: "1st Date",
-    description: "Valentine's Day!",
-    colour: errorColour,
-    imageUrl: airplantsPic,
-
-    imageAlt: "Change me",
-  },
-  {
-    date: "13 MAR 2022",
-    icon: WaterSharpIcon,
-    title: "Blackpool",
-    description: "First trip together!",
-    colour: colour,
-    imageUrl: blackpoolPic,
-    imageAlt: "Change me",
-  },
-  {
-    date: "25 MAR 2022",
-    icon: NightShelterSharpIcon,
-    title: "London",
-    description: "Two days trip together with Nanako!",
-    colour: warningColour,
-    imageUrl: londonPic,
-    imageAlt: "Change me",
-  },
-  {
-    date: "1 APR 2022",
-    icon: TapasIcon,
-    title: "First date night",
-    description: "Before Jupi's Easter Holiday!",
-    colour: successColour,
-    imageUrl: airplantsPic,
-    imageAlt: "Change me",
-  },
-  {
-    date: "30 APR 2022",
-    icon: MilitaryTechIcon,
-    title: "Military Field Trip",
-    description: "Uni trip to Preston - Fulwood!",
-    colour: infoColour,
-    imageUrl: airplantsPic,
-    imageAlt: "Change me",
-  },
-  {
-    date: "13 JUN 2022",
-    icon: SchoolIcon,
-    title: "Ale's graduation",
-    description: "One week trip to Bucharest! Graduation ceremony On the 16th",
-    colour: successColour,
-    imageUrl: graduationAlepPic,
-    imageAlt: "Change me",
-  },
-  {
-    date: "18 JUN 2022",
-    icon: Groups2Icon,
-    title: "Meeting Jupi's Familiy",
-    description: "One week trip to Austria!",
-    colour: warningColour,
-    imageUrl: airplantsPic,
-    imageAlt: "Change me",
-  },
-  {
-    date: "04 July 2022",
-    icon: CastleIcon,
-    title: "Scotland",
-    description: "3 Days Exploring Glasgow & Edinburgh",
-    colour: inheritColour,
-    imageUrl: scotlandPic,
-    imageAlt: "Change me",
-  },
-  {
-    date: "08 JULY 2022",
-    icon: SportsSoccerIcon,
-    title: "Liverpool",
-    description: "One day trip to Liverpool!",
-    colour: successColour,
-    imageUrl: liverpoolPic,
-    imageAlt: "Change me",
-  },
-  {
-    date: "12 JULY 2022",
-    icon: SchoolIcon,
-    title: "Our Graduation",
-    description: "BSc Software Engineering, UCLAN, Preston, United Kingdom",
-    colour: secondaryColour,
-    imageUrl: graduationUclanPic,
-    imageAlt: "Change me",
-  },
-];
-
 export default function CustomizedTimeline() {
+  const [isFriendsAndFamily, setIsFriendsAndFamily] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [contentfulData, setContentfulData] =
+    useState<ContentfulResponse | null>(null);
+
+  // Use the useUser hook to get the user object
+  const { user } = useUser();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchContentfulData();
+        setContentfulData(data);
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+        setContentfulData(dummyData); // Fallback to dummy data in case of error
+      }
+      setIsLoading(false);
+    };
+
+    const hasFriendsAndFamilyRole = checkUserRole(user);
+    // Update the state variable
+    setIsFriendsAndFamily(hasFriendsAndFamilyRole);
+
+    // Fetch and set contentful data only if the user has the required role
+    if (hasFriendsAndFamilyRole) {
+      fetchData();
+    } else {
+      setContentfulData(dummyData);
+      setTimeout(() => setIsLoading(false), 1000);
+    }
+  }, [user]);
+
   // Retrieve the current theme using the useTheme hook from MUI
   const theme = useTheme();
 
@@ -188,78 +114,104 @@ export default function CustomizedTimeline() {
     }
   }, [selectedImageUrl, selectedImageAlt]);
 
+  // add skeleton loading
+
   return (
     <>
       <Stack
+        // bgcolor={"blueviolet"}
+        height={"100vh"}
         justifyContent={{ xs: "center", md: "space-evenly" }}
         direction={{ xs: "column", md: "row" }}
       >
-        {/* Timeline */}
-        <Stack>
-          <Timeline position="alternate">
-            {timelineData.map((item, index) => (
-              <TimelineItem key={index}>
-                <TimelineOppositeContent
-                  sx={{ m: "auto 0" }}
-                  variant="body2"
-                  color={"white"}
-                >
-                  {item.date}
-                </TimelineOppositeContent>
-                <TimelineSeparator>
-                  <TimelineConnector />
-                  <TimelineDot color={item.colour}>
-                    <IconButton
-                      sx={{ color: "white" }}
-                      // href="/album"
-                      size="small"
-                      aria-label="delete"
-                      onClick={() => {
-                        setIsDrawerOpen(!isDrawerOpen);
+        <Stack direction={"column"} bgcolor={"transparent"}>
+          {/* Timeline */}
+          <Stack
+            overflow={"scroll"}
+            height={"60vh"}
+            // border={10}
+            borderColor={"purple"}
+            // bgcolor={"#d1c4e9"}
+          >
+            <Timeline position="alternate">
+              {contentfulData?.items
+                ? contentfulData.items.map((item) => (
+                    <TimelineItem key={item.sys.id}>
+                      <TimelineOppositeContent
+                        sx={{ m: "auto 0" }}
+                        variant="body2"
+                        color={"purple"}
+                      >
+                        {isLoading ? <Skeleton /> : item.fields.date}
+                      </TimelineOppositeContent>
+                      {isLoading ? (
+                        <Skeleton />
+                      ) : (
+                        <TimelineSeparator>
+                          <TimelineConnector />
 
-                        resetSelectedImage;
+                          <TimelineDot color={getRandomColour()}>
+                            {item.fields.image && (
+                              <IconButton
+                                sx={{ color: "white" }}
+                                // href="/album"
+                                size="small"
+                                aria-label="delete"
+                                onClick={() => {
+                                  setIsDrawerOpen(!isDrawerOpen);
 
-                        // setSelectedImageUrl(null); // Reset the selected image
-                        // setSelectedImageAlt(null); // Reset the selected alt text
+                                  resetSelectedImage();
 
-                        setSelectedImageUrl(item.imageUrl);
-                        setSelectedImageAlt(item.imageAlt);
-                      }}
-                    >
-                      {<item.icon />}
-                    </IconButton>
-                  </TimelineDot>
-                  <TimelineConnector />
-                </TimelineSeparator>
-                <TimelineContent sx={{ py: "12px", px: 2 }}>
-                  <Typography
-                    variant="h6"
-                    fontStyle={"oblique"}
-                    // fontWeight={500}
-                    component="span"
-                  >
-                    {item.title}
-                  </Typography>
-                  <Typography>{item.description}</Typography>
-                </TimelineContent>
-              </TimelineItem>
-            ))}
-          </Timeline>
+                                  const selectedAsset =
+                                    contentfulData?.includes.Asset.find(
+                                      (asset) =>
+                                        asset.sys.id ===
+                                        item.fields.image?.sys.id
+                                    );
+
+                                  setSelectedImageUrl(
+                                    selectedAsset?.fields.file.url || ""
+                                  );
+                                  setSelectedImageAlt(
+                                    selectedAsset?.fields.file.fileName || ""
+                                  );
+                                }}
+                              >
+                                {/* {<item.icon />} */}
+                              </IconButton>
+                            )}
+                          </TimelineDot>
+                          <TimelineConnector />
+                        </TimelineSeparator>
+                      )}
+                      <TimelineContent sx={{ py: "12px", px: 2 }}>
+                        <Typography
+                          variant="h6"
+                          fontStyle={"oblique"}
+                          component="span"
+                        >
+                          {isLoading ? <Skeleton /> : item.fields.title}
+                        </Typography>
+                        <Typography>
+                          {isLoading ? <Skeleton /> : item.fields.description}
+                        </Typography>
+                      </TimelineContent>
+                    </TimelineItem>
+                  ))
+                : null}
+            </Timeline>
+          </Stack>
+
+          <Stack alignItems={"center"}>
+            <Box>
+              <Image width={80} height={80} alt="sharko" src={"/shark-2.png"} />
+            </Box>
+            <Hero />
+          </Stack>
         </Stack>
+
         {/* Pictures */}
-
-        {/* <div
-          style={{
-            position: "fixed",
-            top: 0,
-            // left: 0,
-            right: 0,
-            bottom: 0,
-            zIndex: 999,
-          }} */}
-        {/* > */}
-
-        {isMobile && (
+        {isMobile && selectedImageUrl && (
           <IconButton onClick={handleToggleDrawer}>
             <SwipeableEdgeDrawer
               imageSrc={selectedImageUrl}
@@ -272,8 +224,10 @@ export default function CustomizedTimeline() {
           alignItems={"center"}
           justifyContent={"center"}
           width={{ xs: "100vw", md: 700 }}
-          height={{ xs: "100vh", md: 900 }}
-          style={{ display: selectedImageUrl ? "flex" : "none" }}
+          height={{ xs: "100vh", md: 900, lg: "100vh " }}
+          style={{
+            display: selectedImageUrl ? "flex" : "none",
+          }}
         >
           {isDesktop && selectedImageUrl && selectedImageAlt && (
             <Pictures
@@ -284,7 +238,6 @@ export default function CustomizedTimeline() {
             />
           )}
         </Stack>
-        {/* </div> */}
       </Stack>
     </>
   );

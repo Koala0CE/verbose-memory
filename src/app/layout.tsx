@@ -4,6 +4,7 @@ import "./globals.css";
 import { Playfair_Display } from "next/font/google";
 import { ThemeProvider, createTheme } from "@mui/material";
 const inter = Inter({ subsets: ["latin"] });
+import { UserProvider } from "@auth0/nextjs-auth0/client";
 
 const playfair = Playfair_Display({
   weight: ["400", "700"],
@@ -24,7 +25,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={playfair.className}>{children}</body>
+      <UserProvider>
+        <body className={playfair.className}>{children}</body>
+      </UserProvider>
     </html>
   );
 }

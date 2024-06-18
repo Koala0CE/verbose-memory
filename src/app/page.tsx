@@ -5,6 +5,7 @@ import { Hero } from "./_components/Hero";
 import { Stack, ThemeProvider, createTheme } from "@mui/material";
 import CustomizedTimeline from "./_components/Timeline";
 import { Playfair_Display } from "next/font/google";
+import { NavBar } from "./_components/NavBar";
 
 const playfair = Playfair_Display({
   weight: ["400", "700"],
@@ -30,8 +31,10 @@ const theme = createTheme({
 export default function Home() {
   return (
     <ThemeProvider theme={theme}>
+      <NavBar />
+
       <Stack spacing={5} mt={5} justifyContent={"center"} alignItems={"center"}>
-        <Hero />
+        {/* <Hero /> */}
         <CustomizedTimeline />
       </Stack>
     </ThemeProvider>
