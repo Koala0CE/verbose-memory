@@ -37,7 +37,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Project Overview
 
-Project Title: Personal Timeline Application
+Project Title: Personal Timeline Application soon to be MemoryGlobe
 
 Tech Stack: React, TypeScript, Next.js, Contentful, Auth0, GitHub Pages
 
@@ -67,4 +67,20 @@ Solution: Contentful was selected as the CMS due to its flexible API and secure 
 
 Challenge: Deploying a Static Site with Dynamic Content
 
-Solution: I opted for GitHub Pages to host the application, leveraging its integration with GitHub for continuous deployment. The application dynamically renders content based on the user’s authentication status, ensuring privacy and dynamic content display.
+Solution: I opted for Vercel to host the application, leveraging its seamless integration with GitHub for continuous deployment. The application dynamically renders content based on the user’s authentication status, ensuring privacy and dynamic content display.
+
+Using Vercel allows for easy deployment of the Next.js application, which handles both static and dynamic content effectively. Auth0 is used for authentication, ensuring that sensitive data is only accessible to authenticated users. The dynamic content includes personalized data fetched from Contentful, a headless CMS, ensuring that each user sees content relevant to their authentication status.
+
+https://verbose-memory.vercel.app
+
+## TL;DR:
+
+Purpose: Create a personal timeline with private photos and memories.
+Authentication: Uses Auth0 for secure login; only friends and family can access private content.
+Content Management: Contentful CMS for private photo management.
+Hosting: Deployed on Vercel for dynamic and static content handling.
+Future Plans: Add an interactive globe showcasing travel photos.
+Challenges & Solutions:
+Secure Authentication: Auth0 for robust security.
+Private Content Management: Contentful for secure delivery.
+Dynamic Deployment: Vercel for continuous deployment and dynamic content rendering.
