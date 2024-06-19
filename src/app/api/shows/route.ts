@@ -9,8 +9,9 @@ export const GET = withApiAuthRequired(async function shows(req) {
     });
 
     console.log(accessToken, "hello");
-    const apiPort = process.env.API_PORT || 3001;
-    const response = await fetch(`http://localhost:${apiPort}/api/shows`, {
+
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+    const response = await fetch(`${apiUrl}/api/shows`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
