@@ -96,11 +96,6 @@ export const fetchContentfulData =
         return item;
       });
 
-      console.log(
-        "--------Axios response from contentfulAPI file",
-        response.data
-      );
-
       return response.data;
     } catch (error) {
       console.error("Error fetching Contentful data:", error);

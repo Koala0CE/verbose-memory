@@ -1,14 +1,16 @@
-import { getSession, getAccessToken } from "@auth0/nextjs-auth0";
+import { auth0 } from "@/lib/auth0";
 
 export default async function ServerComponent() {
-  const session = await getSession();
-  const accessToken = await getAccessToken();
-  if (session) {
+  const session = await auth0.getSession();
+  if (!session) return <></>;
+
+  try {
+    const accessTokenResult = await auth0.getAccessToken();
     return (
       <>
         <h3>Access Token</h3>
         <pre data-testid="server-component-at">
-          {JSON.stringify(accessToken, null, 2)}
+          {JSON.stringify(accessTokenResult, null, 2)}
         </pre>
         <h3>User</h3>
         <pre data-testid="server-component">
@@ -16,6 +18,7 @@ export default async function ServerComponent() {
         </pre>
       </>
     );
+  } catch {
+    return <></>;
   }
-  return <></>;
 }
