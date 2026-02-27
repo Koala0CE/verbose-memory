@@ -2,6 +2,22 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+### Environment variables
+
+1. Copy the example env file and create your local config:
+
+   ```bash
+   cp .env.example .env.local
+   ```
+
+2. Edit `.env.local` and fill in the values:
+   - **Auth0 (v4):** Create an application in the [Auth0 Dashboard](https://manage.auth0.com/), then set `AUTH0_DOMAIN` (tenant only, e.g. `your-tenant.us.auth0.com`), `AUTH0_CLIENT_ID`, `AUTH0_CLIENT_SECRET`, and `APP_BASE_URL` (e.g. `http://localhost:3000`). Set `NEXT_PUBLIC_AUTH0_DOMAIN` to the same as `AUTH0_DOMAIN` for role checks. Generate `AUTH0_SECRET` with: `openssl rand -hex 32`.
+   - **Contentful:** In your [Contentful space](https://app.contentful.com/) go to **Settings → API keys**, create an API key, and set `NEXT_PUBLIC_CONTENTFUL_SPACE_ID`, `NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN`, and `NEXT_PUBLIC_CONTENTFUL_CONTENT_TYPE` (your content type ID).
+
+Do not commit `.env.local`; it is already in `.gitignore`.
+
+### Run the app
+
 First, run the development server:
 
 ```bash

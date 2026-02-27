@@ -10,7 +10,7 @@ export default function Login() {
         textTransform: "none",
         p: 0,
       }}
-      href="/api/auth/login"
+      href="/auth/login"
       startIcon={<LoginIcon />}
     >
       Login

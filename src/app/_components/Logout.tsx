@@ -10,7 +10,7 @@ export default function Logout() {
         textTransform: "none",
         p: 0,
       }}
-      href="/api/auth/logout"
+      href="/auth/logout"
       startIcon={<LogoutIcon />}
     >
       Logout

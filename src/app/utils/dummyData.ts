@@ -3,40 +3,37 @@ import { ContentfulResponse } from "../contentfulApi";
 export const dummyData: ContentfulResponse = {
   items: [
     {
-      sys: {
-        id: "1",
-      },
+      sys: { id: "1" },
       fields: {
         internalName: "dummyInternalName1",
         title: "Dummy Title 1",
         description: "Dummy Description 1",
         date: "2022-01-01",
         index: 0,
+        image: { sys: { id: "asset1" } },
       },
     },
     {
-      sys: {
-        id: "2",
-      },
+      sys: { id: "2" },
       fields: {
         internalName: "dummyInternalName2",
         title: "Dummy Title 2",
         description: "Dummy Description 2",
         date: "2022-01-02",
         index: 1,
+        image: { sys: { id: "asset1" } },
       },
     },
     // Additional entries
     ...Array.from({ length: 10 }, (_, i) => i + 3).map((i) => ({
-      sys: {
-        id: `${i}`,
-      },
+      sys: { id: `${i}` },
       fields: {
         internalName: `dummyInternalName${i}`,
         title: `Dummy Title ${i}`,
         description: `Dummy Description ${i}`,
         date: `2022-01-${i < 10 ? "0" + i : i}`,
         index: i - 1,
+        image: { sys: { id: i <= 12 ? "asset1" : "asset2" } },
       },
     })),
   ],
